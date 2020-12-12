@@ -630,12 +630,12 @@ def writeProgramSource(f, shdLib, prog, slangs) :
         elif isHLSL(slang):
             vs_c_name = '{}_vs_hlsl5'.format(vs.name)
             fs_c_name = '{}_fs_hlsl5'.format(fs.name)
-            f.write('    setup.SetProgramFromByteCode({}, {}, sizeof({}), {}, sizeof({}));\n'.format(
+            f.write('    setup.SetProgramFromByteCode({}, (const uint8_t *){}, sizeof({}), {}, sizeof({}));\n'.format(
                 slangType, vs_c_name, vs_c_name, fs_c_name, fs_c_name))
         elif isMetal(slang):
             vs_c_name = '{}_vs_metallib'.format(vs.name)
             fs_c_name = '{}_fs_metallib'.format(fs.name)
-            f.write('    setup.SetProgramFromByteCode({}, {}, sizeof({}), {}, sizeof({}), "main0", "main0");\n'.format(
+            f.write('    setup.SetProgramFromByteCode({}, (const uint8_t *){}, sizeof({}), {}, sizeof({}), "main0", "main0");\n'.format(
                 slangType, vs_c_name, vs_c_name, fs_c_name, fs_c_name))
 
     # add uniform layouts to setup object

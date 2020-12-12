@@ -97,7 +97,7 @@ def compile(lines, type, base_path, slang, args) :
     src_path = '{}.{}.{}'.format(base_path, slang, ext[type])
     dst_path = '{}.{}.spv'.format(base_path, slang)
     tgt_lines = []
-    tgt_lines.append(Line('#version 330'))
+    tgt_lines.append(Line('#version 420'))
     tgt_lines.append(Line('#define ORYOL_GLSL ({})'.format('1' if slang=='glsl' else '0')))
     tgt_lines.append(Line('#define ORYOL_MSL ({})'.format('1' if slang=='metal' else '0')))
     tgt_lines.append(Line('#define ORYOL_HLSL ({})'.format('1' if slang=='hlsl' else '0')))

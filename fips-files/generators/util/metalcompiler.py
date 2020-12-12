@@ -105,7 +105,10 @@ def writeBinHeader(in_bin, out_hdr, c_name) :
     hexdata = binascii.hexlify(data)
     with open(out_hdr, 'w') as out_file :
         out_file.write('#pragma once\n')
-        out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))
+        
+        # JBD: clang want this to be int since some of the numbers are too big for char
+        #out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))
+        out_file.write('static const unsigned int {}[] = {{\n'.format(c_name))
         for i in range(0, len(data)) :
             out_file.write('0x{}{},'.format(hexdata[i*2], hexdata[i*2+1]))
             if (i % 16) == 15 :
