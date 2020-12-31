@@ -126,7 +126,7 @@ def writeBinHeader(in_bin, out_hdr, c_name) :
         out_file.write('#pragma once\n')        
         out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))        
         for i in range(0, len(data)):
-            out_file.write('0x{:02X}, '.format( data[i] ) )
+            out_file.write('0x%02x, ' % data[i] )
             if (i % 16) == 15 :
                 out_file.write('\n')
         out_file.write('\n};\n')
