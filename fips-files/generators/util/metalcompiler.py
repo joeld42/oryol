@@ -96,7 +96,9 @@ def parseOutput(output, lines) :
         sys.exit(10) 
 
 #-------------------------------------------------------------------------------
-def writeBinHeader(in_bin, out_hdr, c_name) :
+# JBD: something with python versions broke here. hexlify was returning data
+# and format was printing it as the decimal ascii values (e.g. 0x4630 instead of 0xF0 )
+def writeBinHeader_OLD(in_bin, out_hdr, c_name) :    
     '''
     Write the metallib binary data into a C header file.
     '''
@@ -106,14 +108,29 @@ def writeBinHeader(in_bin, out_hdr, c_name) :
     with open(out_hdr, 'w') as out_file :
         out_file.write('#pragma once\n')
         
-        # JBD: clang want this to be int since some of the numbers are too big for char
-        #out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))
-        out_file.write('static const unsigned int {}[] = {{\n'.format(c_name))
+        out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))
         for i in range(0, len(data)) :
-            out_file.write('0x{}{},'.format(hexdata[i*2], hexdata[i*2+1]))
+            out_file.write('0x{}{},'.format(hexdata[i*2], hexdata[i*2+1]))            
             if (i % 16) == 15 :
                 out_file.write('\n')
         out_file.write('\n};\n')
+
+def writeBinHeader(in_bin, out_hdr, c_name) :
+    '''
+    Write the metallib binary data into a C header file.
+    '''
+    with open(in_bin, 'rb') as in_file :
+        data = in_file.read()
+
+    with open(out_hdr, 'w') as out_file :
+        out_file.write('#pragma once\n')        
+        out_file.write('static const unsigned char {}[] = {{\n'.format(c_name))        
+        for i in range(0, len(data)):
+            out_file.write('0x{:02X}, '.format( data[i] ) )
+            if (i % 16) == 15 :
+                out_file.write('\n')
+        out_file.write('\n};\n')
+
 
 #-------------------------------------------------------------------------------
 def compile(lines, base_path, c_name, args) :
