@@ -12,6 +12,10 @@
 #include <unistd.h>
 #endif
 
+#if ORYOL_IOS || ORYOL_OSX
+#include "LocalFS/private/posix/apple_fs_helper.h"
+#endif
+
 namespace Oryol {
 namespace _priv {
 
@@ -108,6 +112,22 @@ posixFSWrapper::getCwd() {
     else {
         return String();
     }
+}
+
+//------------------------------------------------------------------------------
+String
+posixFSWrapper::getUserDataDir() {
+    char buf[4096];
+
+    if (get_ios_documents_dir(buf, 4096)) {
+        StringBuilder strBuilder(buf);
+        strBuilder.Append('/');
+        return strBuilder.GetString();
+    }
+    else {
+        return String();
+    }
+    
 }
 
 } // namespace _priv

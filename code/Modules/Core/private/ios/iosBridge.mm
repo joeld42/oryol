@@ -266,6 +266,7 @@ iosBridge::onDidFinishLaunching() {
 void
 iosBridge::onWillResignActive() {
     Log::Info("iosBridge::onWillResignActive() called.\n");
+    this->app->onPrepareToSuspend();
 }
 
 //------------------------------------------------------------------------------

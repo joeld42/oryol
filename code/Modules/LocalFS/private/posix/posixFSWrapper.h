@@ -37,6 +37,9 @@ public:
     static String getExecutableDir();
     /// get current directory
     static String getCwd();
+    
+    /// get user directory (place for savegames, settings, etc)
+    static String getUserDataDir();
 };
 
 } // namespace _priv

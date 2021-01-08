@@ -66,6 +66,9 @@ public:
     /// on destroy frame method
     virtual AppState::Code OnDestroy();
 
+    /// JBD: Extra states for iOS build
+    virtual void onPrepareToSuspend();
+    
     /// add a blocker which prevents entering this state
     void addBlocker(AppState::Code blockedState);
     /// remove a blocker, state can be entered if needed

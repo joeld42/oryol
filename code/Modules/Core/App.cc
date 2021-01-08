@@ -227,6 +227,11 @@ App::OnDestroy() {
 }
 
 //------------------------------------------------------------------------------
+void App::onPrepareToSuspend() {
+    // Do nothing by default
+}
+
+//------------------------------------------------------------------------------
 void
 App::readyForInit() {
     this->remBlocker(AppState::Init);

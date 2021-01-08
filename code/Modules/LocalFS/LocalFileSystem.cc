@@ -24,6 +24,11 @@ LocalFileSystem::init(const StringAtom& scheme_) {
     // setup the cwd assign
     strBuilder.Format(4096, "%s:///%s", this->scheme.AsCStr(), fsWrapper::getCwd().AsCStr());
     IO::SetAssign("cwd:", strBuilder.GetString());
+    
+    // JBD: Set up the user data assign. This is a platform-specific place where
+    // user data like savegames and setting should live
+    strBuilder.Format(4096, "%s:///%s", this->scheme.AsCStr(), fsWrapper::getUserDataDir().AsCStr());
+    IO::SetAssign("user:", strBuilder.GetString());
 }
 
 //------------------------------------------------------------------------------
