@@ -8,6 +8,11 @@
 #include "LocalFS/private/whereami/whereami.h"
 #if ORYOL_WINDOWS
 #include <direct.h>
+
+#include <shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+#include "shlobj.h"
+
 #else
 #include <unistd.h>
 #endif
@@ -117,8 +122,9 @@ posixFSWrapper::getCwd() {
 //------------------------------------------------------------------------------
 String
 posixFSWrapper::getUserDataDir() {
-    char buf[4096];
-
+    
+#ifdef ORYOL_IOS
+	char buf[4096];
     if (get_ios_documents_dir(buf, 4096)) {
         StringBuilder strBuilder(buf);
         strBuilder.Append('/');
@@ -127,7 +133,22 @@ posixFSWrapper::getUserDataDir() {
     else {
         return String();
     }
-    
+#endif
+
+#ifdef	ORYOL_WINDOWS
+	TCHAR buf[MAX_PATH];
+	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, buf)))
+	{
+		Log::Info("Userdata path is %s\n", buf);
+
+		StringBuilder strBuilder(buf);
+		strBuilder.Append('/');
+		return strBuilder.GetString();
+	}
+	else {
+		return String();
+	}
+#endif
 }
 
 } // namespace _priv
