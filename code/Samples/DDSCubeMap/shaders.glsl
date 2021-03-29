@@ -18,9 +18,9 @@ void main() {
 @fs fs
 uniform samplerCube tex;
 in vec3 nrm;
-
+out vec4 fragColor;
 void main() {
-    gl_FragColor = texture(tex, nrm);
+    fragColor = texture(tex, nrm);
 }
 @end
 

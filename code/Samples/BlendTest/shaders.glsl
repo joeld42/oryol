@@ -14,10 +14,11 @@ void main() {
 
 @fs backgroundFS
 in vec2 uv0;
+out vec4 fragColor;
 void main() {
     vec2 xy = fract(uv0 * 32.0) * 0.5 + 0.25;
     float f = xy.x * xy.y;
-    gl_FragColor = vec4(f, f, f, 1.0);
+    fragColor = vec4(f, f, f, 1.0);
 }
 @end
 

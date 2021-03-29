@@ -15,8 +15,9 @@ void main() {
 @fs fs
 uniform sampler2D tex;
 in vec2 uv;
+out vec4 fragColor;
 void main() {
-    gl_FragColor = vec4(texture(tex, uv).xyz, 1.0);
+    fragColor = vec4(texture(tex, uv).xyz, 1.0);
 }
 @end
 

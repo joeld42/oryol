@@ -92,6 +92,8 @@ def compile(lines, type, base_path, slang, args) :
         'fs': 'frag'
     }
     # GLSL can have multiple versions, force to generic 'glsl'
+    
+    # "#extension GL_ARB_separate_shader_objects : enable
     if 'glsl' in slang:
         slang = 'glsl'
     src_path = '{}.{}.{}'.format(base_path, slang, ext[type])
@@ -101,6 +103,7 @@ def compile(lines, type, base_path, slang, args) :
     tgt_lines.append(Line('#define ORYOL_GLSL ({})'.format('1' if slang=='glsl' else '0')))
     tgt_lines.append(Line('#define ORYOL_MSL ({})'.format('1' if slang=='metal' else '0')))
     tgt_lines.append(Line('#define ORYOL_HLSL ({})'.format('1' if slang=='hlsl' else '0')))
+    #tgt_lines.append(Line('#extension GL_ARB_separate_shader_objects : enable'))
     tgt_lines.extend(lines)
     with open(src_path, 'w') as f:
         writeFile(f, tgt_lines)

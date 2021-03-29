@@ -45,4 +45,5 @@ def compile(input, base_path, slangs):
         dst_path = '{}.{}'.format(base_path, slang)
         tool = getToolPath()
         cmd = [tool, '-spirv', src_path, '-o', dst_path, '-lang', slang]
+        #print cmd
         run(cmd)

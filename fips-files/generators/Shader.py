@@ -445,7 +445,7 @@ class ShaderLibrary :
 
     def compileShader(self, input, shd, base_path, slangs, args):
         shd_type = shd.getTag()
-        shd_base_path = base_path + '_' + shd.name
+        shd_base_path = base_path + '_' + shd.name        
         glslcompiler.compile(shd.generatedSource, shd_type, shd_base_path, slangs[0], args)
         shdc.compile(input, shd_base_path, slangs)
         self.loadReflection(shd, shd_base_path, slangs)
@@ -564,8 +564,18 @@ def writeShaderSource(f, absPath, shdLib, shd, slVersion) :
         glsl_src_path = '{}.{}'.format(base_path, slVersion)
         with open(glsl_src_path, 'r') as rf:
             lines = rf.read().splitlines()
+
             for line in lines:
+                
                 f.write('"{}\\n"\n'.format(line))
+
+                # JBD:HACK add some extra stuff for GLSL
+                if (line.startswith("#version ")):                   
+                    extraLines = [ "#extension GL_ARB_separate_shader_objects : enable" ]
+                    for extraLine in extraLines:
+                        f.write('"{}\\n"\n'.format(extraLine))
+
+                
         f.write(';\n')
     elif isHLSL(slVersion):
         # for HLSL, the actual shader code has been compiled into a header by FXC
@@ -671,8 +681,9 @@ def generateSource(absSourcePath, shdLib, slangs) :
 
 #-------------------------------------------------------------------------------
 def generate(input, out_src, out_hdr, args) :
-    if util.isDirty(Version, [input], [out_src, out_hdr]) :
+    if util.isDirty(Version, [input], [out_src, out_hdr]):
         slangs = slVersions[args['slang']]
+        print("Generating shader for ", input, out_src )
         shaderLibrary = ShaderLibrary([input])
         shaderLibrary.parseSources()
         shaderLibrary.generateShaderSources()
